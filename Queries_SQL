@@ -1,0 +1,44 @@
+                                                         Recuperando informaçôes com queries SQL
+
+
+-- Seleção das colunas retornando intervalos de dados e agrupando
+SELECT tipoServico, valorPeca, valorServico FROM ordemservico
+WHERE valorPeca BETWEEN '200,00' AND '500,00' 
+GROUP BY tipoServico;
+
+
+-- Seleção usando cláusula de correspôndencia e ordenação
+SELECT Nome, Telefone FROM cliente
+WHERE Nome LIKE '%a%' 
+ORDER BY Nome DESC;
+
+
+-- Seleção usando cláusula de filtro com operadores lógicos e de comparação
+SELECT idOrdemServico, dataEmissao, tipoServico, valorServico, valorPeca, statuss, dataEntrega 
+FROM ordemservico
+WHERE valorPeca < '800,00' AND valorServico > '300,00';
+
+
+-- seleção usando agrupamento e filtro
+SELECT montadora, count(*) FROM veiculo 
+GROUP BY montadora 
+HAVING count(montadora) > 1;
+
+
+
+-- seleção usando junção entre tabelas
+SELECT Nome, Telefone, Endereço, nomeVeiculo, montadora, placa,relatoProblema, pecasTroca FROM cliente AS c 
+INNER JOIN veiculo AS v ON c.idCliente = v.idVeiculo 
+INNER JOIN conserto AS a ON c.idCliente = a.idConserto;
+
+
+-- seleção usando condições de case statement
+SELECT tipoServico,
+       valorServico,
+       valorPeca,
+   CASE
+      WHEN valorPeca < '200,00' THEN 'APROVADO'
+      WHEN valorPeca > '1000,00' THEN 'EM ANÁLISE'
+      ELSE valorPeca 
+   END 'Resultado'  
+FROM ordemservico;
